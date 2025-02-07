@@ -43,6 +43,22 @@ It is useful to upload the schema as an artifact to allow download both in futur
               path: schema.graphql
     ```
 
+!!! example "Gitlab CI Schema Generation"
+
+    ```yaml
+    generate_schema:
+      image: python:3
+      stage: my-stage
+      tags: ["my-tag"]
+      script:
+        - pip install .[dev]
+        - strawberry export-schema my_app:schema > schema.graphql
+      artifacts:
+        paths:
+          - schema.graphql
+        expose_as: "GraphQL schema"
+    ```
+
 ## Check Schema Validity
 
 ### Locally
@@ -83,6 +99,24 @@ Setting `publish` to false will simply compose the new schema, without creating 
           publish: false
     ```
 
+!!! example "Gitlab CI Validity Checking"
+
+    ```yaml
+    include:
+      - component: https://gilab.diamond.ac.uk/zzg91958/test/graph-federation-component@0.0.12 # Change this when ci-componets repo is updated
+        inputs:
+          tags: ["my-tag"]
+          stage: my-stage
+          needs: ["generate_schema"]
+          github_repo: graph-federation
+          github_repo_owner: DiamondLightSource
+          subgraph_name: example
+          subgraph_routing_url: https://example.com/graphql
+          subgraph_schema_file: schema.graphql
+          subgraph_version: 0.0.0
+          publish: false
+    ```
+
 ## Pull Request Generation
 
 To update the deployed supergraph schema, we should create a Pull Request to the [`graph-federation` repository](https://github.com/DiamondLightSource/graph-federation/) with the desired subgraph schema and relevant configuration changes.
@@ -112,4 +146,25 @@ A [GitHub App](https://docs.github.com/en/apps/creating-github-apps/about-creati
           github-app-id: 1010045
           github-app-private-key: ${{ secrets.GRAPH_FEDERATOR }}
           publish: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags') }}
+    ```
+
+!!! example "Full Gitlab CI Workflow"
+
+    ```yaml
+    include:
+      - component: https://gilab.diamond.ac.uk/zzg91958/test/graph-federation-component@0.0.12 # Change this when ci-componets repo is updated
+        inputs:
+          tags: ["my-tag"]
+          stage: my-stage
+          needs: ["generate_schema"]
+          github_app_id: $MY_GITHUB_APP_ID
+          github_installation_id: $MY_GITHUB_INSTALLATION_ID
+          github_private_key_variable: MY_GITHUB_PRIVATE_KEY_VARIABLE_NAME
+          github_repo: graph-federation
+          github_repo_owner: DiamondLightSource
+          subgraph_name: example
+          subgraph_routing_url: https://example.com/graphql
+          subgraph_schema_file: schema.graphql
+          subgraph_version: 0.0.0
+          publish: true
     ```
