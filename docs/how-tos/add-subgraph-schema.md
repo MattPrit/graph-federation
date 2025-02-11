@@ -101,14 +101,14 @@ Setting `publish` to false will simply compose the new schema, without creating 
 
 ### GitLab CI
 
-As part of our continuous integration process on GitLab, we can use the [`graph-federation`]([https://github.com/DiamondLightSource/graph-federation](https://gitlab.diamond.ac.uk/lims/gitlab-ci-components/-/tree/add-supergraph-pr-component-code?ref_type=heads#diamond-supergraph-components) component in GitLab CI pipelines;
+As part of our continuous integration process on GitLab, we can use the [`graph-federation`]([https://github.com/DiamondLightSource/graph-federation](https://gitlab.diamond.ac.uk/lims/gitlab-ci-components#graph-federation-component) component in GitLab CI pipelines;
 Setting `publish` to false will simply compose the new schema, without creating a pull request.
 
 !!! example "GitLab CI Validity Checking"
 
     ```yaml
     include:
-      - component: https://gilab.diamond.ac.uk/zzg91958/test/graph-federation-component@0.0.12 # Change this when ci-componets repo is updated
+      - component: https://gilab.diamond.ac.uk/lims/gitlab-ci-components/graph-federation-component@0.1.0
         inputs:
           tags: ["my-tag"]
           stage: my-stage
@@ -156,7 +156,7 @@ A [GitHub App](https://docs.github.com/en/apps/creating-github-apps/about-creati
 <!-- markdownlint-disable-next-line MD024 -->
 ### GitLab CI
 
-A [GitHub App](https://docs.github.com/en/apps/creating-github-apps/about-creating-github-apps/about-creating-github-apps) can be created in order to act as a bot account capable of pushing to branches and creating Pull Requests from the CI of a GitLab repository. The the [`graph-federation`]([https://github.com/DiamondLightSource/graph-federation](https://gitlab.diamond.ac.uk/lims/gitlab-ci-components/-/tree/add-supergraph-pr-component-code?ref_type=heads#diamond-supergraph-components) component can be used to perform the necessary schema composition, branch update, and pull request generation with `publish` set to true.
+A [GitHub App](https://docs.github.com/en/apps/creating-github-apps/about-creating-github-apps/about-creating-github-apps) can be created in order to act as a bot account capable of pushing to branches and creating Pull Requests from the CI of a GitLab repository. The the [`graph-federation`]([https://github.com/DiamondLightSource/graph-federation](https://gitlab.diamond.ac.uk/lims/gitlab-ci-components#graph-federation-component) component can be used to perform the necessary schema composition, branch update, and pull request generation with `publish` set to true.
 
 !!! tip
 
@@ -166,7 +166,7 @@ A [GitHub App](https://docs.github.com/en/apps/creating-github-apps/about-creati
 
     ```yaml
     include:
-      - component: https://gilab.diamond.ac.uk/zzg91958/test/graph-federation-component@0.0.12 # Change this when ci-componets repo is updated
+      - component: https://gilab.diamond.ac.uk/lims/gitlab-ci-components/graph-federation-component@0.1.0
         inputs:
           tags: ["my-tag"]
           stage: my-stage
